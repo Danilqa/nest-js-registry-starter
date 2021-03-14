@@ -1,0 +1,62 @@
+{
+    "name": "nest-js-starter",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.ts",
+    "license": "MIT",
+    "scripts": {
+        "copy:assets": "node dev/scripts/copy-assets.js",
+        "build": "nest build",
+        "start": "nest start",
+        "start:dev": "nest start --watch",
+        "start:db": "docker-compose up -d",
+        "start:debug": "nest start --debug --watch",
+        "lint:code": "eslint --ext .js,.ts",
+        "lint": "yarn lint:code .",
+        "test": "jest --no-cache --coverage",
+        "hooks:pre-push": "yarn lint && yarn test"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "yarn hooks:pre-push",
+            "pre-commit": "lint-staged",
+            "commit-msg": "commit-linter --message=COMMIT_MESSAGE"
+        }
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": [
+            "yarn lint",
+            "git add"
+        ]
+    },
+    "dependencies": {
+        "@nestjs/common": "7.6.13",
+        "@nestjs/core": "7.6.13",
+        "@nestjs/mongoose": "7.2.4",
+        "@nestjs/platform-express": "7.6.13",
+        "mongoose": "5.12.0",
+        "reflect-metadata": "0.1.13"
+    },
+    "devDependencies": {
+        "@eigenspace/codestyle": "latest",
+        "@eigenspace/commit-linter": "latest",
+        "@eigenspace/common-types": "0.0.23",
+        "@nestjs/testing": "7.6.14",
+        "@types/jest": "22.2.2",
+        "@types/node-fetch": "2.5.7",
+        "@types/supertest": "2.0.10",
+        "cross-env": "7.0.2",
+        "eslint": "7.9.0",
+        "eslint-plugin-eigenspace-script": "latest",
+        "husky": "2.3.0",
+        "jest": "24.7.1",
+        "lint-staged": "8.1.7",
+        "mongodb-memory-server": "6.9.6",
+        "nodemon": "2.0.4",
+        "supertest": "6.1.3",
+        "ts-jest": "24.0.2",
+        "ts-loader": "6.2.1",
+        "ts-node": "8.6.2",
+        "typescript": "3.8.2"
+    }
+}
