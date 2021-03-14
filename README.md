@@ -30,7 +30,7 @@ Sample
 ```json
 {
     "name": "Harry Potter",
-    "birthdate": "2011-08-12T20:17:46.384Z",
+    "birthdate": "2011-08-12",
     "phoneNumber": "+44 141 243 2640",
     "address": "44 Howard Street Merchant City, Glasgow G1 4EE Scotland"
 }
