@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { UserRole } from './user.enums';
 
-export type ParticipantDocument = Participant & Document;
+export type UserDocument = User & Document;
 
 @Schema()
-export class Participant {
+export class User {
 
     @Prop({ required: true, unique: true, immutable: true })
     id: string;
@@ -12,14 +13,11 @@ export class Participant {
     @Prop({ required: true })
     name: string;
 
-    @Prop({ required: true, type: Date })
-    birthdate: string;
+    @Prop({ required: true })
+    role: UserRole;
 
     @Prop({ required: true })
-    phoneNumber: string;
-
-    @Prop({ required: true })
-    address: string;
+    secret: string;
 }
 
-export const ParticipantSchema = SchemaFactory.createForClass(Participant);
+export const UserSchema = SchemaFactory.createForClass(User);
