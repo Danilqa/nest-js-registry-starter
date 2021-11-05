@@ -1,5 +1,5 @@
 export const environment = {
-    port: 3000,
+    port: 3001,
     db: {
         host: 'localhost',
         user: 'admin',
