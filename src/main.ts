@@ -1,9 +1,20 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { IdentityServiceModule } from './identity-service/identity-service.module';
 import { environment } from './environments';
+import { TaskServiceModule } from './task-service/task-service.module';
 
 async function bootstrap(): Promise<void> {
-    const app = await NestFactory.create(AppModule);
-    await app.listen(environment.port);
+    const initIdentity = async () => {
+        const app = await NestFactory.create(IdentityServiceModule);
+        await app.listen(environment.identity.port);
+    }
+
+    const initTask = async () => {
+        const app = await NestFactory.create(TaskServiceModule);
+        await app.listen(environment.task.port);
+    }
+
+    await initIdentity();
+    await initTask();
 }
 bootstrap();

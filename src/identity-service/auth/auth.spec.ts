@@ -13,7 +13,7 @@ import { UserController } from '../user/user.controller';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 
-describe('Participant', () => {
+describe('Auth', () => {
     let app: INestApplication;
 
     let module: TestingModule;
@@ -58,7 +58,7 @@ describe('Participant', () => {
                 });
         });
 
-        it('should validate user', async (done) => {
+        it('should validate user', async () => {
             const data = await request(app.getHttpServer())
                 .post(`/${AuthController.ROOT_PATH}/login`)
                 .send({ name: 'popug-ravshan', password: '456' });
@@ -69,20 +69,19 @@ describe('Participant', () => {
                 .expect(HttpStatus.OK)
                 .expect(res => {
                     expect(res.body).toEqual({});
-                    done();
                 });
         });
     });
 
     beforeAll(async () => {
-        mongoServer = new MongoMemoryServer();
+        mongoServer = await MongoMemoryServer.create();
         module = await Test.createTestingModule({
             imports: [
                 AuthModule,
                 UserModule,
                 MongooseModule.forRootAsync({
-                    useFactory: async () => ({
-                        uri: await mongoServer.getUri()
+                    useFactory: () => ({
+                        uri: mongoServer.getUri()
                     })
                 })
             ]
@@ -91,7 +90,7 @@ describe('Participant', () => {
         app = module.createNestApplication();
         await app.init();
 
-        await mongoose.connect(await mongoServer.getUri());
+        await mongoose.connect(mongoServer.getUri());
         model = module.get(getModelToken(User.name));
     });
 

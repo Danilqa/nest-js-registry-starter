@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
-import { environment } from './environments';
+import { environment } from '../environments';
 import { UserModule } from './user/user.module';
 
-const { db } = environment;
+const { identity: { db } } = environment;
 
 @Module({
     imports: [
@@ -15,5 +15,5 @@ const { db } = environment;
         )
     ]
 })
-export class AppModule {
+export class IdentityServiceModule {
 }

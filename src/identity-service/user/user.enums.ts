@@ -3,3 +3,7 @@ export enum UserRole {
     MANAGER = 'manager',
     WORKER = 'worker'
 }
+
+export enum BrokerEventType {
+    CREATED = 'User.Created'
+}

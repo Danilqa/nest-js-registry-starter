@@ -7,6 +7,10 @@ import { UserMapper } from './user.mapper';
 import { User, UserDocument } from './user.schema';
 import { uuid } from 'uuidv4';
 import { hash, compare } from 'bcrypt';
+import { KafkaService } from '../../common/kafka/kafka.service';
+import { TOPIC } from '../common/consts/topics.consts';
+import { KafkaPayload } from '../../common/kafka/kafka.message';
+import { BrokerEventType } from './user.enums';
 
 @Injectable()
 export class UserService {
@@ -14,6 +18,7 @@ export class UserService {
 
     constructor(
         private readonly userMapper: UserMapper,
+        private readonly kafkaService: KafkaService,
         @InjectModel(User.name) private userModel: Model<UserDocument>
     ) {}
 
@@ -32,7 +37,16 @@ export class UserService {
             throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
         }
 
-        return this.userMapper.fromSchemaToDto(createdEntity);
+        const dto = this.userMapper.fromSchemaToDto(createdEntity);
+        const payload = new KafkaPayload({
+            body: dto,
+            topicName: TOPIC.USERS,
+            messageType: BrokerEventType.CREATED
+        });
+        await this.kafkaService.sendMessage(TOPIC.USERS, payload);
+        console.log('user was sent to the broker');
+
+        return dto;
     }
 
     async update(id: string, fieldsToUpdate: Partial<UserSaveDto>): Promise<UserDto> {
