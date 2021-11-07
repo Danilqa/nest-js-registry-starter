@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { TaskDto } from './dto/task.dto';
 import { TaskSaveDto } from './dto/task-save.dto';
 import { TaskService } from './task.service';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller(TaskController.ROOT_PATH)
 export class TaskController {
@@ -17,6 +18,8 @@ export class TaskController {
         return this.taskService.create(item);
     }
 
+    @ApiBearerAuth('access-token')
+    @UseGuards(AuthGuard)
     @Post('assign-all')
     assignAll(): Promise<void> {
         return this.taskService.assignAll();

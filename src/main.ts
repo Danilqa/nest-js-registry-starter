@@ -9,6 +9,10 @@ async function bootstrap(): Promise<void> {
         const options = new DocumentBuilder()
             .setTitle('Identity')
             .setDescription('Stores users and provides authn and authz logics for them')
+            .addBearerAuth(
+                { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+                'access-token',
+            )
             .setVersion('1.0')
             .build();
 
@@ -16,12 +20,16 @@ async function bootstrap(): Promise<void> {
         const document = SwaggerModule.createDocument(app, options);
         SwaggerModule.setup('api', app, document);
         await app.listen(environment.identity.port);
-    }
+    };
 
     const initTask = async () => {
         const options = new DocumentBuilder()
             .setTitle('Task')
             .setDescription('Contains all processes related to the task management')
+            .addBearerAuth(
+                { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+                'access-token',
+            )
             .setVersion('1.0')
             .build();
 
@@ -29,9 +37,10 @@ async function bootstrap(): Promise<void> {
         const document = SwaggerModule.createDocument(app, options);
         SwaggerModule.setup('api', app, document);
         await app.listen(environment.task.port);
-    }
+    };
 
-    await initIdentity();
-    await initTask();
+    initIdentity();
+    initTask();
 }
+
 bootstrap();

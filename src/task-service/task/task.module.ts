@@ -7,9 +7,11 @@ import { TaskMapper } from './task.mapper';
 import { UserService } from '../user/user.service';
 import { User, UserSchema } from '../user/user.schema';
 import { UserMapper } from '../user/user.mapper';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
     imports: [
+        HttpModule,
         MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }]),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
     ],
