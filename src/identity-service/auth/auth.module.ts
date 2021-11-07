@@ -8,9 +8,11 @@ import { UserMapper } from '../user/user.mapper';
 import { KafkaModule } from '../../common/kafka/kafka.module';
 import { environment } from '../../environments';
 import { JwtModule } from '@nestjs/jwt';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
     imports: [
+        HttpModule,
         KafkaModule.register({
             clientId: 'auth-client',
             brokers: [ environment.broker.url],
