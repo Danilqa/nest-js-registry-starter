@@ -94,6 +94,11 @@ export class TaskService {
         return this.taskMapper.fromSchemaToDtoMany(items);
     }
 
+    async findByAssignedUserId(id: string): Promise<TaskDto[]> {
+        const items = await this.taskModel.find({ assignedUserId: id }).exec();
+        return this.taskMapper.fromSchemaToDtoMany(items);
+    }
+
     async findById(id: string): Promise<TaskDto> {
         const foundUser = await this.taskModel.findOne({ id });
         if (!foundUser) {

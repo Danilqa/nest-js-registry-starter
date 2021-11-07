@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { environment } from '../../environments';
+import { environment } from '../../../environments';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
