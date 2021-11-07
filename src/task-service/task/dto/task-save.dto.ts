@@ -1,3 +1,3 @@
-export interface TaskSaveDto {
+export class TaskSaveDto {
     description: string;
 }

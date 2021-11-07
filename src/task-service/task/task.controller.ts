@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TaskDto } from './dto/task.dto';
 import { TaskSaveDto } from './dto/task-save.dto';
 import { TaskService } from './task.service';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller(TaskController.ROOT_PATH)
 export class TaskController {
@@ -10,14 +11,15 @@ export class TaskController {
     constructor(private readonly taskService: TaskService) {
     }
 
+    @ApiBody({ type: TaskSaveDto })
     @Post()
     create(@Body() item: TaskSaveDto): Promise<TaskDto> {
         return this.taskService.create(item);
     }
 
-    @Post()
-    assignAll(@Body() item: TaskSaveDto): Promise<TaskDto> {
-        return this.taskService.create(item);
+    @Post('assign-all')
+    assignAll(): Promise<void> {
+        return this.taskService.assignAll();
     }
 
     @Get()

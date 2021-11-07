@@ -16,7 +16,7 @@ export class Task {
     @Prop({ required: true })
     status: TaskStatus;
 
-    @Prop({ required: true })
+    @Prop()
     assignedUserId: string;
 }
 
